@@ -49,7 +49,7 @@ const RadarChart = ({ labels, values }: RadarChartProps) => {
         angleLines: { color: "hsl(230, 15%, 25%)" },
         pointLabels: {
           color: "hsl(220, 20%, 85%)",
-          font: { size: 12, weight: "600" as const },
+          font: { size: 12, weight: "bold" as const },
         },
       },
     },
