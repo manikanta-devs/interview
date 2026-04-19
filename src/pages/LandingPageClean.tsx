@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play, CheckCircle } from "lucide-react";
+import { PremiumNexHireLogoLarge } from "../components/PremiumLogo";
 
 export default function LandingPageClean() {
   const navigate = useNavigate();
@@ -81,9 +82,12 @@ export default function LandingPageClean() {
 
       {/* Navigation */}
       <nav className="relative z-50 flex items-center justify-between px-6 py-6 md:px-12 backdrop-blur-sm">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-          NexHire
-        </h1>
+        <div className="flex items-center gap-3">
+          <PremiumNexHireLogoLarge />
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+            NexHire
+          </h1>
+        </div>
         <button
           onClick={() => navigate("/dashboard")}
           className="px-6 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold hover:scale-105 transition-transform text-sm"
@@ -95,6 +99,21 @@ export default function LandingPageClean() {
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="max-w-4xl mx-auto text-center space-y-12">
+          {/* Logo */}
+          <div
+            style={{
+              transform: `
+                perspective(1500px)
+                rotateX(${Math.min(scrollY * 0.04, 8)}deg)
+                translateZ(0)
+              `,
+              opacity: 1 - Math.max(0, scrollY - 400) / 500,
+            }}
+            className="flex justify-center"
+          >
+            <PremiumNexHireLogoLarge />
+          </div>
+
           {/* Main Title with 3D Effect */}
           <div
             style={{
@@ -106,17 +125,17 @@ export default function LandingPageClean() {
               opacity: 1 - Math.max(0, scrollY - 400) / 500,
             }}
           >
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-6">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-tight mb-6 tracking-tight" style={{letterSpacing: '-0.02em'}}>
               <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-purple-300 bg-clip-text text-transparent block">
                 Master Your
               </span>
               <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent block">
-                Interview Skills
+                Interviews
               </span>
             </h1>
           </div>
 
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light tracking-wide">
             AI-powered interview preparation with real-time feedback and practice tools
           </p>
 
@@ -150,7 +169,7 @@ export default function LandingPageClean() {
       {/* Features Section */}
       <section className="relative z-10 py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-center mb-12 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent" style={{letterSpacing: '-0.01em'}}>
             What You Get
           </h2>
 
@@ -183,7 +202,7 @@ export default function LandingPageClean() {
       {/* Benefits Section */}
       <section className="relative z-10 py-20 px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent" style={{letterSpacing: '-0.01em'}}>
             Why NexHire?
           </h2>
 
@@ -209,7 +228,7 @@ export default function LandingPageClean() {
       <section className="relative z-10 py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="p-12 rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-600/10 to-cyan-600/10 text-center space-y-6">
-            <h2 className="text-3xl font-bold">Ready to Ace Your Interviews?</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold" style={{letterSpacing: '-0.01em'}}>Ready to Ace Your Interviews?</h2>
             <p className="text-gray-300">Start your free preparation now with AI-powered tools</p>
             <button
               onClick={() => navigate("/dashboard")}

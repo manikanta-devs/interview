@@ -109,7 +109,13 @@ export default function Sidebar() {
           <Settings className="h-4 w-4" />
           Settings
         </button>
-        <button className="w-full flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all">
+        <button
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/";
+          }}
+          className="w-full flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all"
+        >
           <LogOut className="h-4 w-4" />
           Logout
         </button>

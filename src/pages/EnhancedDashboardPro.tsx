@@ -87,7 +87,7 @@ function ProgressBar({ percentage, label }: any) {
   );
 }
 
-// Unique Button with gradient and hover effects
+// Unique Button with gradient and hover effects - Redesigned
 function UniqueButton({
   icon: Icon,
   label,
@@ -100,38 +100,60 @@ function UniqueButton({
   return (
     <button
       onClick={onClick}
-      className={`group relative overflow-hidden rounded-2xl p-6 text-left transition-all duration-500 hover:scale-105 hover:shadow-2xl ${className}`}
+      className={`group relative overflow-hidden rounded-xl p-6 text-left transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-indigo-500/20 hover:border-indigo-500/50 ${className}`}
       style={{
-        background: `linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.15) 100%)`,
-        border: "2px solid rgba(99, 102, 241, 0.3)",
+        background: "linear-gradient(135deg, rgba(10, 10, 15, 0.8) 0%, rgba(17, 24, 39, 0.6) 100%)",
+        backdropFilter: "blur(10px)",
       }}
     >
+      {/* Animated background on hover */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: `radial-gradient(circle at center, rgba(99, 102, 241, 0.2) 0%, transparent 70%)`,
+          background: `radial-gradient(circle at center, ${gradient} 0%, transparent 70%)`,
+          opacity: 0.08,
         }}
       />
 
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-3">
-          <div className={`inline-block p-3 rounded-xl bg-gradient-to-br ${gradient} group-hover:scale-110 transition-transform duration-300`}>
-            <Icon className="w-6 h-6 text-white" />
+      <div className="relative z-10 space-y-3">
+        {/* Icon and Emoji Row */}
+        <div className="flex items-start justify-between">
+          <div className={`inline-block p-2.5 rounded-lg bg-gradient-to-br ${gradient} group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+            <Icon className="w-5 h-5 text-white" />
           </div>
-          <span className="text-2xl">{emoji}</span>
+          <span className="text-3xl animate-pulse group-hover:animate-bounce">{emoji}</span>
         </div>
-        <h3 className="font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">{label}</h3>
-        <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">{description}</p>
-        <div className="mt-3 flex items-center text-indigo-400 group-hover:text-cyan-300 transition-colors">
-          <span className="text-xs font-semibold">Start Practicing</span>
-          <ArrowUpRight className="w-4 h-4 ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+
+        {/* Title */}
+        <h3 className="font-display font-bold text-white text-lg group-hover:text-cyan-300 transition-colors duration-300 leading-tight">
+          {label}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300 line-clamp-2">
+          {description}
+        </p>
+
+        {/* CTA Arrow */}
+        <div className="pt-2 flex items-center text-indigo-400 group-hover:text-cyan-300 transition-colors duration-300">
+          <span className="text-xs font-semibold uppercase tracking-wider">Start Now</span>
+          <ArrowUpRight className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
         </div>
       </div>
+
+      {/* Border gradient on hover */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: `linear-gradient(135deg, transparent 0%, ${gradient} 50%, transparent 100%)`,
+          pointerEvents: "none",
+          padding: "1px",
+        }}
+      />
     </button>
   );
 }
 
 // Stat Card with animated graphics
-function StatCard({ label, value, icon: Icon, color, trend }: any) {
+function StatCard({ label, value, icon: Icon, color }: any) {
   return (
     <div
       className="group relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:scale-105 cursor-pointer"
@@ -147,32 +169,38 @@ function StatCard({ label, value, icon: Icon, color, trend }: any) {
             <div className={`p-2 rounded-lg`} style={{ background: `${color}20` }}>
               <Icon className="w-5 h-5" style={{ color }} />
             </div>
-            {trend && (
-              <div className="flex items-center gap-1 text-green-400 text-sm font-bold">
-                <TrendingUp className="w-4 h-4" />
-                <span>+{trend}%</span>
-              </div>
-            )}
           </div>
         </div>
         <p className="text-3xl font-black mb-2" style={{ color }}>
           <AnimatedCounter value={parseInt(value)} />
           {isNaN(parseInt(value)) ? value : ""}
         </p>
-        <p className="text-xs text-gray-500">Last 30 days</p>
+        <p className="text-xs text-gray-500">Total count</p>
       </div>
     </div>
   );
 }
 
-// User Progress Card with detailed breakdown
-function UserProgressCard() {
-  const [progressData, setProgressData] = useState({
-    profileCompletion: 75,
-    resumeOptimization: 60,
-    interviewReadiness: 85,
-    skillDevelopment: 70,
-  });
+// User Progress Card with real data
+function UserProgressCard({ activities }: any) {
+  const calculateProgress = () => {
+    if (!activities || activities.length === 0) return { overall: 0, interview: 0, resume: 0, skills: 0 };
+
+    const interviews = activities.filter((a: any) => a.type === "interview").length;
+    const resumes = activities.filter((a: any) => a.type === "resume").length;
+    const skills = activities.filter((a: any) => a.type === "skill").length;
+    const questions = activities.filter((a: any) => a.type === "question").length;
+
+    return {
+      interview: Math.min(interviews * 10, 100),
+      resume: Math.min(resumes * 20, 100),
+      skills: Math.min(skills * 15, 100),
+      questions: Math.min(questions * 5, 100),
+      overall: Math.round(((interviews * 10 + resumes * 20 + skills * 15 + questions * 5) / 4) / 4),
+    };
+  };
+
+  const progress = calculateProgress();
 
   return (
     <div className="rounded-3xl p-8 border border-indigo-500/30" style={{
@@ -184,26 +212,26 @@ function UserProgressCard() {
             <Sparkles className="w-6 h-6 text-cyan-400" />
             Your Progress Overview
           </h3>
-          <p className="text-gray-400">Track your journey to interview mastery</p>
+          <p className="text-gray-400">Based on your actual activities</p>
         </div>
 
         <div className="space-y-4">
-          <ProgressBar percentage={progressData.profileCompletion} label="📋 Profile Completion" />
-          <ProgressBar percentage={progressData.resumeOptimization} label="📄 Resume Optimization" />
-          <ProgressBar percentage={progressData.interviewReadiness} label="🎯 Interview Readiness" />
-          <ProgressBar percentage={progressData.skillDevelopment} label="🧠 Skill Development" />
+          <ProgressBar percentage={progress.interview} label="🎤 Interview Practice" />
+          <ProgressBar percentage={progress.resume} label="📄 Resume Work" />
+          <ProgressBar percentage={progress.skills} label="🧠 Skills Development" />
+          <ProgressBar percentage={progress.questions} label="❓ Questions Answered" />
         </div>
 
         <div className="flex flex-wrap gap-3 pt-4 border-t border-indigo-500/20">
           <div className="flex-1 min-w-fit p-3 rounded-lg bg-indigo-600/10 border border-indigo-500/20">
             <p className="text-xs text-gray-400">Overall Progress</p>
             <p className="text-2xl font-bold text-cyan-400 mt-1">
-              <AnimatedCounter value={Math.round((progressData.profileCompletion + progressData.resumeOptimization + progressData.interviewReadiness + progressData.skillDevelopment) / 4)} />%
+              <AnimatedCounter value={progress.overall} />%
             </p>
           </div>
           <div className="flex-1 min-w-fit p-3 rounded-lg bg-purple-600/10 border border-purple-500/20">
-            <p className="text-xs text-gray-400">Next Milestone</p>
-            <p className="text-lg font-bold text-purple-400 mt-1">+15% to Mastery 🎉</p>
+            <p className="text-xs text-gray-400">Total Activities</p>
+            <p className="text-lg font-bold text-purple-400 mt-1">{activities?.length || 0}</p>
           </div>
         </div>
       </div>
@@ -211,16 +239,27 @@ function UserProgressCard() {
   );
 }
 
-// Achievement Badges
-function AchievementBadges() {
-  const badges = [
-    { emoji: "🔥", label: "5-Day Streak", earned: true },
-    { emoji: "🎯", label: "Perfect Score", earned: true },
-    { emoji: "⚡", label: "Speed Master", earned: false },
-    { emoji: "🌟", label: "All-Star", earned: false },
-    { emoji: "🏆", label: "Champion", earned: false },
-    { emoji: "💎", label: "Diamond Member", earned: false },
-  ];
+// Achievement Badges - Based on real user data
+function AchievementBadges({ activities }: any) {
+  const calculateAchievements = () => {
+    if (!activities || activities.length === 0) return [];
+
+    const achievements = [];
+    const interviews = activities.filter((a: any) => a.type === "interview").length;
+    const questionsAnswered = activities.filter((a: any) => a.type === "question").length;
+    const days = new Set(activities.map((a: any) => a.date || new Date().toDateString())).size;
+
+    if (interviews > 0) achievements.push({ emoji: "🎤", label: "First Interview", earned: true });
+    if (interviews >= 5) achievements.push({ emoji: "🔥", label: "5-Interview Club", earned: true });
+    if (interviews >= 10) achievements.push({ emoji: "⭐", label: "Interview Master", earned: true });
+    if (questionsAnswered >= 10) achievements.push({ emoji: "🎯", label: "10 Questions", earned: true });
+    if (questionsAnswered >= 50) achievements.push({ emoji: "💯", label: "50 Questions", earned: true });
+    if (days >= 5) achievements.push({ emoji: "🔥", label: "5-Day Streak", earned: true });
+
+    return achievements.slice(0, 6);
+  };
+
+  const achievements = calculateAchievements();
 
   return (
     <div className="rounded-2xl p-6 border border-indigo-500/20" style={{
@@ -231,34 +270,40 @@ function AchievementBadges() {
         Achievements & Badges
       </h3>
       <div className="grid grid-cols-3 gap-3">
-        {badges.map((badge, idx) => (
-          <div
-            key={idx}
-            className={`p-3 rounded-lg text-center transition-all duration-300 ${
-              badge.earned
-                ? "bg-yellow-600/20 border-2 border-yellow-500/50 hover:scale-110"
-                : "bg-gray-800/50 border-2 border-gray-700/50 opacity-50"
-            }`}
-          >
-            <p className="text-2xl mb-1">{badge.emoji}</p>
-            <p className={`text-xs font-semibold ${badge.earned ? "text-yellow-400" : "text-gray-500"}`}>
-              {badge.label}
-            </p>
+        {achievements.length > 0 ? (
+          achievements.map((badge, idx) => (
+            <div
+              key={idx}
+              className="p-3 rounded-lg bg-yellow-600/20 border-2 border-yellow-500/50 hover:scale-110 transition-all text-center"
+            >
+              <p className="text-2xl mb-1">{badge.emoji}</p>
+              <p className="text-xs font-semibold text-yellow-400">{badge.label}</p>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-3 text-center p-4 text-gray-400">
+            <p className="text-sm">Start practicing to earn badges! 🚀</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 }
 
-// Learning Path
-function LearningPath() {
+// Learning Path - Based on real user activities
+function LearningPath({ activities }: any) {
+  const hasInterviews = activities?.some((a: any) => a.type === "interview");
+  const hasResume = activities?.some((a: any) => a.type === "resume");
+  const hasQuestions = activities?.some((a: any) => a.type === "question");
+  const hasSkills = activities?.some((a: any) => a.type === "skill");
+  const totalActivities = activities?.length || 0;
+
   const steps = [
-    { number: 1, title: "Complete Profile", icon: "👤", completed: true },
-    { number: 2, title: "Upload Resume", icon: "📄", completed: true },
-    { number: 3, title: "Practice Interview", icon: "🎤", completed: true },
-    { number: 4, title: "Get Feedback", icon: "💬", completed: false },
-    { number: 5, title: "Improve & Re-Practice", icon: "🔄", completed: false },
+    { number: 1, title: "Start Practicing", icon: "🎤", completed: hasInterviews || hasQuestions },
+    { number: 2, title: "Upload Resume", icon: "📄", completed: hasResume },
+    { number: 3, title: "Learn Skills", icon: "🧠", completed: hasSkills },
+    { number: 4, title: "Track Progress", icon: "📊", completed: totalActivities >= 5 },
+    { number: 5, title: "Earn Badges", icon: "🏆", completed: totalActivities >= 10 },
   ];
 
   return (
@@ -267,7 +312,7 @@ function LearningPath() {
     }}>
       <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
         <GitBranch className="w-5 h-5 text-indigo-400" />
-        Your Learning Path
+        Your Learning Journey
       </h3>
       <div className="space-y-3">
         {steps.map((step, idx) => (
@@ -310,11 +355,18 @@ export default function EnhancedDashboardPro() {
     const questionCount = savedActivities.filter((a: any) => a.type === "question").length;
     const skillCount = savedActivities.filter((a: any) => a.type === "skill").length;
 
+    // Calculate real streak from activity dates
+    let streakDays = 0;
+    if (savedActivities.length > 0) {
+      const dates = new Set(savedActivities.map((a: any) => a.date?.split("T")[0] || new Date().toISOString().split("T")[0]));
+      streakDays = dates.size;
+    }
+
     setStats({
       interviewsPracticed: interviewCount,
       questionsAnswered: questionCount,
       skillsLearned: skillCount,
-      streakDays: Math.floor(Math.random() * 30) + 1,
+      streakDays: streakDays,
     });
   }, []);
 
@@ -404,36 +456,32 @@ export default function EnhancedDashboardPro() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Interviews Practiced"
-          value={stats.interviewsPracticed || 12}
+          value={stats.interviewsPracticed}
           icon={Video}
           color="#818CF8"
-          trend={15}
         />
         <StatCard
           label="Questions Answered"
-          value={stats.questionsAnswered || 48}
+          value={stats.questionsAnswered}
           icon={MessageSquare}
           color="#06B6D4"
-          trend={22}
         />
         <StatCard
           label="Skills Mastered"
-          value={stats.skillsLearned || 9}
+          value={stats.skillsLearned}
           icon={Award}
           color="#10B981"
-          trend={8}
         />
         <StatCard
           label="Streak 🔥"
-          value={stats.streakDays || 7}
+          value={stats.streakDays}
           icon={Flame}
           color="#F59E0B"
-          trend={3}
         />
       </div>
 
       {/* User Progress Overview */}
-      <UserProgressCard />
+      <UserProgressCard activities={activities} />
 
       {/* Recent Activities */}
       {activities.length > 0 && (
@@ -469,8 +517,8 @@ export default function EnhancedDashboardPro() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Left: Achievements & Learning Path */}
         <div className="space-y-6">
-          <AchievementBadges />
-          <LearningPath />
+          <AchievementBadges activities={activities} />
+          <LearningPath activities={activities} />
         </div>
 
         {/* Right: Quick Tips */}
@@ -503,8 +551,9 @@ export default function EnhancedDashboardPro() {
       </div>
 
       {/* Advanced Features */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-4xl font-display font-bold text-white flex items-center gap-3" style={{letterSpacing: '-0.01em'}}>
+          <span className="w-1 h-10 rounded-full bg-gradient-to-b from-indigo-600 to-cyan-600"></span>
           Advanced AI Features
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -515,8 +564,9 @@ export default function EnhancedDashboardPro() {
       </div>
 
       {/* Basic Features */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-white">
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-4xl font-display font-bold text-white flex items-center gap-3" style={{letterSpacing: '-0.01em'}}>
+          <span className="w-1 h-10 rounded-full bg-gradient-to-b from-cyan-600 to-indigo-600"></span>
           Core Training Tools
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
@@ -527,19 +577,20 @@ export default function EnhancedDashboardPro() {
       </div>
 
       {/* Resume Upload CTA */}
-      <div className="rounded-2xl p-8 border border-indigo-500/30" style={{
-        background: "linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%)",
+      <div className="rounded-2xl p-8 border border-indigo-500/30 group hover:border-indigo-500/60 transition-all duration-500" style={{
+        background: "linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(56, 189, 248, 0.08) 100%)",
+        backdropFilter: "blur(10px)",
       }}>
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-white mb-2">Upload Your Resume</h3>
-            <p className="text-gray-400 text-sm">Get instant AI analysis, ATS scoring, and optimization suggestions to land more interviews</p>
+            <h3 className="text-3xl font-display font-bold text-white mb-2" style={{letterSpacing: '-0.01em'}}>Upload Your Resume</h3>
+            <p className="text-gray-400 text-base leading-relaxed">Get instant AI analysis, ATS scoring, and optimization suggestions to land more interviews</p>
           </div>
           <button
             onClick={() => navigate("/resume-advanced")}
-            className="flex-shrink-0 px-8 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold hover:scale-105 transition-transform hover:shadow-lg hover:shadow-indigo-500/40"
+            className="flex-shrink-0 px-8 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/40 group/btn"
           >
-            <Upload className="w-4 h-4 inline mr-2" />
+            <Upload className="w-4 h-4 inline mr-2 group-hover/btn:scale-110 transition-transform" />
             Analyze Resume
           </button>
         </div>

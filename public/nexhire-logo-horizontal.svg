@@ -1,32 +1,41 @@
-<svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg" width="360" height="120">
-  <!-- Dark background (optional) -->
-  <rect width="360" height="120" fill="#0F172A" opacity="0"/>
+<svg viewBox="0 0 380 100" xmlns="http://www.w3.org/2000/svg" width="380" height="100">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
   
-  <!-- Geometric N Icon -->
-  <g transform="translate(15, 20) scale(1)">
-    <!-- Left vertical line -->
-    <rect x="0" y="0" width="10" height="80" fill="#3B82F6" rx="2"/>
+  <!-- Modern N Icon -->
+  <g transform="translate(10, 15)">
+    <!-- Left bar of N -->
+    <rect x="4" y="4" width="10" height="60" fill="url(#grad2)" rx="3" filter="url(#glow2)"/>
     
     <!-- Diagonal line -->
-    <g transform="translate(5, 0)">
-      <line x1="0" y1="0" x2="45" y2="80" stroke="#3B82F6" stroke-width="10" stroke-linecap="round"/>
-    </g>
+    <path d="M 14 4 L 60 64" stroke="url(#grad2)" stroke-width="10" stroke-linecap="round" fill="none" filter="url(#glow2)"/>
     
-    <!-- Right vertical line -->
-    <rect x="45" y="0" width="10" height="80" fill="#3B82F6" rx="2"/>
+    <!-- Right bar of N -->
+    <rect x="54" y="4" width="10" height="60" fill="url(#grad2)" rx="3" filter="url(#glow2)"/>
   </g>
   
   <!-- Brand Text: NexHire -->
-  <text x="100" y="72" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#E2E8F0" letter-spacing="-0.8">
+  <text x="95" y="62" font-family="'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#f8f8ff" letter-spacing="0">
     NexHire
   </text>
   
   <!-- Subtitle -->
-  <text x="100" y="95" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="#94A3B8" letter-spacing="0.5">
+  <text x="95" y="82" font-family="'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#94a3b8" letter-spacing="0.8">
     INTERVIEW MASTERY
   </text>
   
   <!-- Accent dots -->
-  <circle cx="330" cy="35" r="2.5" fill="#3B82F6" opacity="0.6"/>
-  <circle cx="340" cy="75" r="1.5" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="355" cy="20" r="2" fill="#06b6d4" opacity="0.6"/>
+  <circle cx="368" cy="55" r="1.5" fill="#7c3aed" opacity="0.4"/>
 </svg>

@@ -10,9 +10,9 @@ export default function AdvancedResumeAnalysis() {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [dragActive, setDragActive] = useState(false);
 
-  const handleFileUpload = async (e) => {
-    const selectedFile = e.target.files?.[0];
+  const processFile = async (selectedFile) => {
     if (!selectedFile) return;
 
     setFile(selectedFile);
@@ -28,6 +28,29 @@ export default function AdvancedResumeAnalysis() {
       setError(err.message);
       setLoading(false);
     }
+  };
+
+  const handleFileUpload = async (e) => {
+    const selectedFile = e.target.files?.[0];
+    processFile(selectedFile);
+  };
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    const droppedFile = e.dataTransfer.files?.[0];
+    processFile(droppedFile);
   };
 
   const handleAnalyze = async () => {
@@ -69,19 +92,55 @@ export default function AdvancedResumeAnalysis() {
         </div>
       )}
 
-      {/* File Upload */}
-      <div className="glass rounded-xl p-6">
-        <label className="block">
-          <p className="text-white font-bold mb-4">1. Upload Your Resume (PDF, DOCX, TXT)</p>
-          <input
-            type="file"
-            accept=".pdf,.docx,.txt"
-            onChange={handleFileUpload}
-            disabled={loading}
-            className="w-full px-4 py-3 bg-slate-900 border border-indigo-500 rounded-lg text-white cursor-pointer"
-          />
+      {/* File Upload - Drag Drop Area */}
+      <div
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+        className={`relative rounded-2xl p-8 border-2 border-dashed transition-all ${
+          dragActive
+            ? "border-cyan-400 bg-cyan-500/10"
+            : resumeText
+            ? "border-green-500/50 bg-green-500/5"
+            : "border-indigo-500/50 bg-indigo-500/5 hover:border-indigo-400"
+        }`}
+      >
+        <input
+          type="file"
+          id="resume-upload"
+          accept=".pdf,.docx,.txt"
+          onChange={handleFileUpload}
+          disabled={loading}
+          className="hidden"
+        />
+        <label htmlFor="resume-upload" className="block cursor-pointer">
+          <div className="text-center">
+            <div className="mb-4">
+              <Upload className="w-12 h-12 mx-auto text-indigo-400" />
+            </div>
+            <p className="text-white font-bold text-lg mb-1">
+              {resumeText ? "✓ Resume Ready" : "Upload Your Resume"}
+            </p>
+            <p className="text-gray-400 text-sm">
+              {resumeText
+                ? `File: ${file?.name || "Selected"}`
+                : "Drag and drop or click to select PDF, DOCX, or TXT"}
+            </p>
+            {!resumeText && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("resume-upload").click();
+                }}
+                className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white text-sm font-semibold hover:shadow-lg transition-all"
+              >
+                Choose File
+              </button>
+            )}
+          </div>
         </label>
-        {resumeText && <p className="text-green-400 text-sm mt-2">✓ Resume processed</p>}
       </div>
 
       {/* Target Role (Optional) */}

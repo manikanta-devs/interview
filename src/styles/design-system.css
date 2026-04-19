@@ -3,7 +3,7 @@
    Premium SaaS Dark Theme
    ============================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 :root {
   /* ========== COLOR PALETTE ========== */
@@ -34,17 +34,17 @@
   --color-text-disabled: #334155;
 
   /* ========== TYPOGRAPHY ========== */
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Sora", sans-serif;
+  --font-body: "Poppins", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --text-display: clamp(2.2rem, 4.3vw, 4rem);
-  --text-h1: clamp(1.6rem, 2.5vw, 2.4rem);
-  --text-h2: clamp(1.15rem, 1.8vw, 1.55rem);
-  --text-h3: 1.05rem;
-  --text-body-lg: 1.05rem;
+  --text-display: clamp(2.4rem, 5vw, 4.2rem);
+  --text-h1: clamp(1.75rem, 3vw, 2.8rem);
+  --text-h2: clamp(1.35rem, 2vw, 1.85rem);
+  --text-h3: 1.25rem;
+  --text-body-lg: 1.1rem;
   --text-body: 1rem;
-  --text-caption: 0.8rem;
+  --text-caption: 0.85rem;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;

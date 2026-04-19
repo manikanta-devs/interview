@@ -2,7 +2,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./styles/designSystem.css";
 import Navbar from "./components/Navbar.tsx";
 import Sidebar from "./components/Sidebar.jsx";
-import LandingPage from "./pages/LandingPageClean.tsx"; // Clean landing page with 3D animations
+import LandingPage from "./pages/PremiumLanding.tsx"; // Premium landing page with 3D animations
 import EnhancedDashboard from "./pages/EnhancedDashboardPro.tsx"; // Professional dashboard
 import AdvancedDashboard from "./pages/AdvancedDashboard.tsx"; // ADVANCED Analytics
 import Dashboard from "./pages/DashboardNew.tsx"; // Professional version
