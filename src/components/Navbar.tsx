@@ -34,10 +34,6 @@ export default function Navbar() {
 
 
         <div className="flex items-center gap-3">
-          <span className="hidden sm:inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-indigo-600/20 to-cyan-600/20 border border-indigo-500/30 text-indigo-300">
-            <Sparkles className="h-3.5 w-3.5" />
-            Premium
-          </span>
           <div className="h-11 w-11 rounded-full border border-indigo-500/40 glass p-2 flex items-center justify-center hover:border-indigo-400/60 transition-colors">
             <PremiumNexHireLogo />
           </div>

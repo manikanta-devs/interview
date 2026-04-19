@@ -392,11 +392,10 @@ export default function EnhancedDashboardPro() {
     <div className="space-y-8 pb-20">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-indigo-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-          🚀 Interview Mastery Hub
+        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          Interview Mastery Hub
         </h1>
-        <p className="text-gray-400 text-lg flex items-center gap-2">
-          <Zap className="w-5 h-5 text-yellow-400" />
+        <p className="text-gray-400 text-base flex items-center gap-2">
           Your personal AI interview coach with real-time feedback
         </p>
       </div>
@@ -506,7 +505,6 @@ export default function EnhancedDashboardPro() {
       {/* Advanced Features */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-indigo-400" />
           Advanced AI Features
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -518,8 +516,7 @@ export default function EnhancedDashboardPro() {
 
       {/* Basic Features */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-          <BarChart3 className="w-6 h-6 text-cyan-400" />
+        <h2 className="text-2xl font-bold text-white">
           Core Training Tools
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
@@ -530,34 +527,20 @@ export default function EnhancedDashboardPro() {
       </div>
 
       {/* Resume Upload CTA */}
-      <div
-        className="relative overflow-hidden rounded-3xl p-8 md:p-12 border-2"
-        style={{
-          background: "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)",
-          borderColor: "rgba(99, 102, 241, 0.3)",
-        }}
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-b from-indigo-600/5 to-transparent rounded-full blur-3xl animate-pulse" />
-        </div>
-
-        <div className="relative z-10 text-center space-y-6">
-          <div>
-            <h3 className="text-3xl md:text-4xl font-black mb-2">
-              <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                📤 Upload Your Resume
-              </span>
-            </h3>
-            <p className="text-gray-400">Get AI-powered analysis and optimization suggestions</p>
+      <div className="rounded-2xl p-8 border border-indigo-500/30" style={{
+        background: "linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%)",
+      }}>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-2xl font-bold text-white mb-2">Upload Your Resume</h3>
+            <p className="text-gray-400 text-sm">Get instant AI analysis, ATS scoring, and optimization suggestions to land more interviews</p>
           </div>
-
           <button
             onClick={() => navigate("/resume-advanced")}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-bold text-lg hover:scale-105 transition-transform hover:shadow-2xl hover:shadow-indigo-500/50"
+            className="flex-shrink-0 px-8 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold hover:scale-105 transition-transform hover:shadow-lg hover:shadow-indigo-500/40"
           >
-            <Upload className="w-5 h-5" />
-            Start Resume Analysis
-            <ArrowUpRight className="w-5 h-5" />
+            <Upload className="w-4 h-4 inline mr-2" />
+            Analyze Resume
           </button>
         </div>
       </div>
