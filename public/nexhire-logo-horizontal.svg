@@ -1,0 +1,32 @@
+<svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg" width="360" height="120">
+  <!-- Dark background (optional) -->
+  <rect width="360" height="120" fill="#0F172A" opacity="0"/>
+  
+  <!-- Geometric N Icon -->
+  <g transform="translate(15, 20) scale(1)">
+    <!-- Left vertical line -->
+    <rect x="0" y="0" width="10" height="80" fill="#3B82F6" rx="2"/>
+    
+    <!-- Diagonal line -->
+    <g transform="translate(5, 0)">
+      <line x1="0" y1="0" x2="45" y2="80" stroke="#3B82F6" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Right vertical line -->
+    <rect x="45" y="0" width="10" height="80" fill="#3B82F6" rx="2"/>
+  </g>
+  
+  <!-- Brand Text: NexHire -->
+  <text x="100" y="72" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#E2E8F0" letter-spacing="-0.8">
+    NexHire
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="100" y="95" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="#94A3B8" letter-spacing="0.5">
+    INTERVIEW MASTERY
+  </text>
+  
+  <!-- Accent dots -->
+  <circle cx="330" cy="35" r="2.5" fill="#3B82F6" opacity="0.6"/>
+  <circle cx="340" cy="75" r="1.5" fill="#3B82F6" opacity="0.4"/>
+</svg>

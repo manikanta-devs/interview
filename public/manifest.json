@@ -1,0 +1,19 @@
+{
+  "name": "NexHire",
+  "short_name": "NexHire",
+  "description": "AI interview intelligence platform for resume analysis and mock interview practice.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B1120",
+  "theme_color": "#3B82F6",
+  "categories": ["education", "productivity" ]
+}
