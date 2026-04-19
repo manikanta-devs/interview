@@ -21,7 +21,7 @@ The app needs the API key for AI features. Here's how:
 
 ```
 Name: VITE_GEMINI_API_KEY
-Value: AIzaSyBkVfKuiVRW6ZjQest2CgZwB1IQA2GnztA
+Value: your_gemini_api_key_here
 Environments: Production, Preview, Development
 ```
 

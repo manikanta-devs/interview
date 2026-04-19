@@ -16,7 +16,7 @@ Your Google Gemini API key was committed to the public GitHub repository. **This
 #### Step 1: Regenerate Your API Key (Invalidate Old One)
 
 1. Go to **https://makersuite.google.com/app/apikey**
-2. Find your old key: `AIzaSyBkVfKuiVRW6ZjQest2CgZwB1IQA2GnztA`
+2. Find your old key: `your_old_gemini_api_key_here`
 3. Click **Delete** / **Deactivate**
 4. Generate a **NEW key**
 5. Copy your new key
