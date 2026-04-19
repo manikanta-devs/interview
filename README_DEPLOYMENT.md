@@ -55,7 +55,7 @@ cp .env.example .env
 
 4. Add your Gemini API key:
 ```
-VITE_GEMINI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_api_key_here
 ```
 
 5. Start development server:
@@ -117,7 +117,7 @@ src/
 The app uses a **single Gemini API key** from `.env` for all features:
 
 ```typescript
-// Automatically loaded from VITE_GEMINI_API_KEY
+// Automatically loaded from GEMINI_API_KEY
 const result = await unifiedAPIService.coachSTARAnswer(userAnswer, role);
 ```
 

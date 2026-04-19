@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import crypto from "crypto";
+import { callGeminiPrompt } from "./services/gemini.js";
 
 // Load environment variables
 dotenv.config();
@@ -19,7 +20,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "http://localhost:8080",
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+  })
+);
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
@@ -29,6 +40,40 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "NexHire API is running ✅" });
+});
+
+app.post("/api/gemini", async (req, res) => {
+  const {
+    prompt,
+    systemContext = "",
+    imageBase64,
+    responseFormat = "text",
+    model = "gemini-2.0-flash",
+  } = req.body || {};
+
+  if (!prompt) {
+    return res.status(400).json({
+      success: false,
+      error: "Prompt is required",
+    });
+  }
+
+  try {
+    const result = await callGeminiPrompt({
+      prompt,
+      systemContext,
+      imageBase64,
+      responseFormat,
+      model,
+    });
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message || "Failed to call Gemini API",
+    });
+  }
 });
 
 // Temporary mock routes - these will be replaced with real routes

@@ -28,7 +28,7 @@ Your Google Gemini API key was committed to the public GitHub repository. **This
 1. Go to **https://vercel.com/dashboard**
 2. Select your project: **interview-confidence-hub**
 3. Click **Settings** → **Environment Variables**
-4. Find: `VITE_GEMINI_API_KEY`
+4. Find: `GEMINI_API_KEY`
 5. **Click Edit** and replace with your NEW key
 6. Save and wait for auto-redeploy
 
@@ -41,7 +41,7 @@ cp .env.example .env.local
 
 2. Edit `.env.local` and add your NEW key:
 ```
-VITE_GEMINI_API_KEY=YOUR_NEW_KEY_HERE
+GEMINI_API_KEY=YOUR_NEW_KEY_HERE
 ```
 
 3. Never commit `.env.local` to git!
@@ -85,7 +85,7 @@ User Browser (Client-Side)
     ↓
 React App (Vite)
     ↓
-JavaScript reads: process.env.VITE_GEMINI_API_KEY
+JavaScript reads: process.env.GEMINI_API_KEY
     ↓
 Calls Google Gemini API directly
     ↓

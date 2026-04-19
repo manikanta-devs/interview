@@ -1,41 +1,32 @@
 /**
  * Unified API Service
- * Uses single Gemini API key from environment
+ * Uses a server-managed Gemini endpoint
  * Handles all advanced features with rate limiting and caching
  */
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+import { callGeminiClient } from "./geminiClient";
 
 // Simple cache to reduce API calls
 const responseCache = new Map();
 
 export const unifiedAPIService = {
   /**
-   * Check if API key is configured
+   * Check if Gemini is available
    */
   isConfigured: () => {
-    return Boolean(API_KEY && API_KEY.length > 0);
+    return true;
   },
 
   /**
-   * Get API key from env
+   * Legacy accessor kept for compatibility
    */
-  getApiKey: () => API_KEY,
+  getApiKey: () => "",
 
   /**
    * Call Gemini API with caching
    */
   callGemini: async (prompt: string, cacheKey?: string) => {
     try {
-      if (!API_KEY) {
-        return {
-          success: false,
-          error: "Gemini API key not configured. Please add VITE_GEMINI_API_KEY to your .env file",
-          data: null,
-        };
-      }
-
       // Check cache first
       if (cacheKey && responseCache.has(cacheKey)) {
         return {
@@ -45,44 +36,21 @@ export const unifiedAPIService = {
         };
       }
 
-      // Add delay to respect rate limits
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const response = await fetch(`${API_URL}?key=${API_KEY}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: prompt,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            maxOutputTokens: 2048,
-            temperature: 0.7,
-          },
-        }),
+      const result = await callGeminiClient({
+        prompt,
+        responseFormat: "text",
+        model: "gemini-2.0-flash",
       });
 
-      if (!response.ok) {
-        const error = await response.json();
+      if (!result.success) {
         return {
           success: false,
-          error:
-            error.error?.message ||
-            `API Error: ${response.status}. Ensure your API key is valid and has Gemini 2.0 enabled.`,
+          error: result.error || "Failed to call Gemini API",
           data: null,
         };
       }
 
-      const data = await response.json();
-      const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      const content = result.data || "";
 
       // Cache successful response
       if (cacheKey) {

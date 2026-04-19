@@ -1,6 +1,5 @@
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || "gemini-1.5-flash";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+import { callGeminiClient } from "./geminiClient";
 
 // Fallback evaluation for when Gemini is not available
 const fallbackEvaluation = {
@@ -10,24 +9,18 @@ const fallbackEvaluation = {
 };
 
 async function callGemini(prompt: string): Promise<string> {
-  if (!GEMINI_API_KEY) return "";
-  try {
-    const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 500 },
-      }),
-    });
+  const result = await callGeminiClient({
+    prompt,
+    responseFormat: "text",
+    model: GEMINI_MODEL,
+  });
 
-    if (!response.ok) throw new Error(`Gemini request failed with ${response.status}`);
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-  } catch (error) {
-    console.error("Gemini API error:", error);
+  if (!result.success) {
+    console.error("Gemini API error:", result.error);
     return "";
   }
+
+  return result.data || "";
 }
 
 export const aiService = {

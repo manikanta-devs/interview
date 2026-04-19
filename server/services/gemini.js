@@ -1,6 +1,76 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "dummy-key");
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models";
+
+export async function callGeminiPrompt({
+  prompt,
+  systemContext = "",
+  imageBase64,
+  responseFormat = "text",
+  model = "gemini-2.0-flash",
+}) {
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not configured");
+  }
+
+  const parts = [];
+
+  if (imageBase64) {
+    parts.push({
+      inlineData: {
+        mimeType: "image/jpeg",
+        data: imageBase64,
+      },
+    });
+  }
+
+  parts.push({ text: prompt });
+
+  const requestBody = {
+    contents: [{ parts }],
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 2048,
+    },
+  };
+
+  if (responseFormat === "json") {
+    requestBody.generationConfig.responseMimeType = "application/json";
+  }
+
+  if (systemContext) {
+    requestBody.systemInstruction = {
+      parts: [{ text: systemContext }],
+    };
+  }
+
+  const response = await fetch(
+    `${GEMINI_API_URL}/${model}:generateContent?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.error?.message || `Gemini request failed with ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+  const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+  return {
+    success: true,
+    data: content,
+  };
+}
 
 /**
  * Parse resume and extract skills, experience, education

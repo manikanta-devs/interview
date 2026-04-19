@@ -165,7 +165,7 @@ npm run dev:all
 For deployment issues:
 1. Check GitHub Actions logs
 2. Review `.github/workflows/deploy.yml`
-3. Verify VITE_GEMINI_API_KEY is set
+3. Verify GEMINI_API_KEY is set
 4. Check GitHub Pages settings
 
 ---

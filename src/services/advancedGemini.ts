@@ -6,6 +6,7 @@
 
 const GEMINI_MODEL = "gemini-2.0-flash";
 const GEMINI_VISION_MODEL = "gemini-2.0-flash";
+import { callGeminiClient } from "./geminiClient";
 
 interface GeminiResponse {
   success: boolean;
@@ -35,61 +36,20 @@ async function callGemini(
   imageBase64?: string,
   responseFormat: "json" | "text" = "json"
 ): Promise<GeminiResponse> {
-  const apiKey = apiKeyManager.get();
-  if (!apiKey) {
-    return { success: false, error: "Gemini API key not configured" };
-  }
-
   try {
-    const parts: any[] = [];
+    const result = await callGeminiClient({
+      prompt,
+      systemContext,
+      imageBase64,
+      responseFormat,
+      model: GEMINI_MODEL,
+    });
 
-    if (imageBase64) {
-      parts.push({
-        inlineData: {
-          mimeType: "image/jpeg",
-          data: imageBase64,
-        },
-      });
+    if (!result.success) {
+      return { success: false, error: result.error || "Gemini API error" };
     }
 
-    parts.push({ text: prompt });
-
-    const requestBody: any = {
-      contents: [{ parts }],
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 2048,
-      },
-    };
-
-    if (responseFormat === "json") {
-      requestBody.generationConfig.responseMimeType = "application/json";
-    }
-
-    if (systemContext) {
-      requestBody.system_instruction = {
-        parts: [{ text: systemContext }],
-      };
-    }
-
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || `API Error: ${response.status}`
-      );
-    }
-
-    const data = await response.json();
-    const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const content = result.data;
 
     if (!content) {
       throw new Error("Empty response from Gemini");
