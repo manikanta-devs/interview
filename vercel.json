@@ -18,8 +18,12 @@
   ],
   "routes": [
     {
+      "src": "/api/gemini",
+      "dest": "/api/gemini.js"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/api/[...route].js"
     },
     {
       "handle": "filesystem"
