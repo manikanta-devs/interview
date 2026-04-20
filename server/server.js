@@ -36,6 +36,8 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+const distPath = path.join(__dirname, "../dist");
+app.use(express.static(distPath));
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -137,6 +139,14 @@ app.use((err, req, res, next) => {
     error: err.message || "Internal Server Error",
     ...(process.env.NODE_ENV === "development" && { stack: err.stack })
   });
+});
+
+// SPA fallback for non-API routes
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+  return res.sendFile(path.join(distPath, "index.html"));
 });
 
 // 404 handler
