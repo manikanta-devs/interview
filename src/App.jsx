@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./styles/designSystem.css";
 import Navbar from "./components/Navbar.tsx";
@@ -25,6 +26,11 @@ import SkillsAcademy from "./pages/SkillsAcademy.jsx";
 export default function App() {
   const location = useLocation();
   const isLanding = location.pathname === "/";
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMobileSidebarOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen overflow-hidden text-slate-200">
@@ -36,9 +42,12 @@ export default function App() {
         </Routes>
       ) : (
         <>
-          <Sidebar />
+          <Sidebar
+            isMobileOpen={isMobileSidebarOpen}
+            onMobileClose={() => setIsMobileSidebarOpen(false)}
+          />
           <div className="min-h-screen lg:pl-72">
-            <Navbar />
+            <Navbar onMobileMenuToggle={() => setIsMobileSidebarOpen((prev) => !prev)} />
             <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-5 sm:px-6 lg:px-8">
               <Routes>
                 {/* Landing & Dashboard */}

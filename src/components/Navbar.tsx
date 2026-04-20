@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Sparkles } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import { PremiumNexHireLogo } from "./PremiumLogo";
 
 const mobileLinks = [
@@ -10,11 +10,23 @@ const mobileLinks = [
   ["Quiz", "/quiz"],
 ];
 
-export default function Navbar() {
+type NavbarProps = {
+  onMobileMenuToggle?: () => void;
+};
+
+export default function Navbar({ onMobileMenuToggle }: NavbarProps) {
   return (
     <header className="sticky top-0 z-20 border-b border-indigo-500/20 glass px-4 py-4 backdrop-blur-xl sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-4">
+          <button
+            type="button"
+            aria-label="Open sidebar menu"
+            onClick={onMobileMenuToggle}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-indigo-500/30 bg-slate-900/70 text-indigo-200 transition-colors hover:border-indigo-400/60 hover:text-white lg:hidden"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
           <div className="logo-mark shrink-0">
             <PremiumNexHireLogo />
           </div>
