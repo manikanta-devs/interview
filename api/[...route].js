@@ -13,8 +13,9 @@ export default async function handler(req, res) {
   const route = req.query.route;
   const parts = Array.isArray(route) ? route : route ? [route] : [];
   const path = `/${parts.join("/")}`;
+  const normalizedPath = path.startsWith("/api/") ? path.slice(4) : path;
 
-  if (req.method === "GET" && path === "/health") {
+  if (req.method === "GET" && (path === "/health" || normalizedPath === "/health")) {
     return ok(res, { status: "NexHire API is running ✅" });
   }
 
