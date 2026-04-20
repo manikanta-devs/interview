@@ -5,11 +5,14 @@
   "env": {
     "VITE_APP_ENV": "production"
   },
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html",
-      "statusCode": 200
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
     }
   ]
 }
