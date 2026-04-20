@@ -2,21 +2,22 @@ import { NavLink } from "react-router-dom";
 import {
   BarChart3,
   ClipboardList,
-  FileText,
   LayoutDashboard,
   Mic,
   Video,
   LogOut,
   Settings,
-  Zap,
   Brain,
-  AlertCircle,
   TrendingUp,
-  BookOpen,
   Award,
   Target,
   DollarSign,
   FileCheck,
+  FileText,
+  Sparkles,
+  Trophy,
+  Activity,
+  GraduationCap,
   X,
 } from "lucide-react";
 import { UnifiedLogo } from "./UnifiedLogo";
@@ -24,24 +25,29 @@ import { UnifiedLogo } from "./UnifiedLogo";
 const navItems = [
   // CORE FEATURES
   { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard, category: "Core" },
+  { label: "Classic Dashboard", path: "/dashboard-classic", icon: BarChart3, category: "Core" },
+  { label: "Resume", path: "/resume", icon: FileText, category: "Core" },
+  { label: "Reports", path: "/results", icon: BarChart3, category: "Core" },
   
   // ADVANCED FEATURES
   { label: "📊 Advanced Analytics", path: "/dashboard-advanced", icon: TrendingUp, category: "Advanced", badge: "Advanced" },
-  { label: "Resume Analysis", path: "/resume-advanced", icon: Brain, category: "Advanced", badge: "Advanced" },
+  { label: "Resume Analysis Pro", path: "/resume-advanced", icon: Brain, category: "Advanced", badge: "Advanced" },
   { label: "🎯 JD Matcher", path: "/jd-matcher", icon: Target, category: "Advanced", badge: "Advanced" },
+  { label: "⭐ STAR Coach", path: "/star-coach", icon: Award, category: "Advanced", badge: "Advanced" },
+  { label: "💰 Salary Negotiation", path: "/salary-simulator", icon: DollarSign, category: "Advanced", badge: "Advanced" },
+  { label: "📋 Cheat Sheet", path: "/cheat-sheet", icon: FileCheck, category: "Advanced", badge: "Advanced" },
   
   // INTERVIEWS
   { label: "🎤 Voice Interview", path: "/interview/voice", icon: Mic, category: "Core" },
   { label: "🎥 Video Interview (AI Avatar)", path: "/interview/video", icon: Video, category: "Core", badge: "UPGRADED" },
   { label: "📝 Quiz", path: "/quiz", icon: ClipboardList, category: "Core" },
   
-  // COACHING
-  { label: "⭐ STAR Coach", path: "/star-coach", icon: Award, category: "Advanced", badge: "Advanced" },
-  { label: "💰 Salary Negotiation", path: "/salary-simulator", icon: DollarSign, category: "Advanced", badge: "Advanced" },
-  { label: "📋 Cheat Sheet", path: "/cheat-sheet", icon: FileCheck, category: "Advanced", badge: "Advanced" },
-  
-  // RESULTS
-  { label: "Reports", path: "/results", icon: BarChart3, category: "Core" },
+  // GROWTH
+  { label: "Gamification", path: "/gamification", icon: Trophy, category: "Growth" },
+  { label: "AI Coach", path: "/ai-coach", icon: Sparkles, category: "Growth" },
+  { label: "Weak Spots", path: "/weak-spots", icon: Target, category: "Growth" },
+  { label: "Performance", path: "/performance", icon: Activity, category: "Growth" },
+  { label: "Skills Academy", path: "/skills-academy", icon: GraduationCap, category: "Growth" },
 ];
 
 export default function Sidebar({ isMobileOpen = false, onMobileClose = () => {} }) {
