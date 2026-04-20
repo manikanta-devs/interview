@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title>NexHire logo</title>
+  <desc>Professional NexHire monogram</desc>
+  <defs>
+    <linearGradient id="nexhireGrad" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#60A5FA" />
+      <stop offset="0.55" stop-color="#3B82F6" />
+      <stop offset="1" stop-color="#2563EB" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#0B1120" />
+  <rect x="104" y="104" width="304" height="304" rx="88" fill="url(#nexhireGrad)" opacity="0.16" />
+  <path d="M136 150h56l72 114 72-114h40v212h-56V245l-56 88h-16l-56-88v117h-56V150Z" fill="#E2E8F0" />
+  <path d="M356 192h20l24 48 24-48h20v120h-24v-70l-20 40h-2l-20-40v70h-22V192Z" fill="#93C5FD" opacity="0.95" />
+  <circle cx="390" cy="128" r="12" fill="#60A5FA" opacity="0.9" />
+</svg>
