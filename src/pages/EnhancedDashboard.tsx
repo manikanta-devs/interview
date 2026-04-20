@@ -124,7 +124,19 @@ export default function EnhancedDashboard() {
 
   useEffect(() => {
     // Load real data from localStorage
-    const savedActivities = JSON.parse(localStorage.getItem("activities") || "[]");
+    let savedActivities: any[] = [];
+
+    try {
+      const rawActivities = localStorage.getItem("activities");
+      savedActivities = rawActivities ? JSON.parse(rawActivities) : [];
+    } catch {
+      savedActivities = [];
+    }
+
+    if (!Array.isArray(savedActivities)) {
+      savedActivities = [];
+    }
+
     setActivities(savedActivities.slice(0, 5)); // Show last 5 activities
 
     // Calculate stats from real data

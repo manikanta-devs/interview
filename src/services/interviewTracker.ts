@@ -39,6 +39,17 @@ export interface InterviewSession {
 
 const STORAGE_KEY = "nexhire_interviews";
 
+function safeParseSessions(value: string | null): InterviewSession[] {
+  if (!value) return [];
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 export const interviewTracker = {
   /**
    * Start a new interview session
@@ -129,8 +140,7 @@ export const interviewTracker = {
    * Get all interview sessions
    */
   getAllSessions: (): InterviewSession[] => {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    return safeParseSessions(localStorage.getItem(STORAGE_KEY));
   },
 
   /**

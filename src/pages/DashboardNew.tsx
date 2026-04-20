@@ -16,9 +16,20 @@ export default function Dashboard() {
   const [recentSessions, setRecentSessions] = useState<any[]>([]);
 
   useEffect(() => {
-    const dashboardMetrics = interviewTracker.getMetrics();
-    setMetrics(dashboardMetrics);
-    setRecentSessions(interviewTracker.getRecentSessions(5));
+    try {
+      const dashboardMetrics = interviewTracker.getMetrics();
+      setMetrics(dashboardMetrics);
+      setRecentSessions(interviewTracker.getRecentSessions(5));
+    } catch (error) {
+      console.error("Failed to load dashboard data:", error);
+      setMetrics({
+        totalInterviews: 0,
+        averageScore: 0,
+        bestScore: 0,
+        totalMinutes: 0,
+      });
+      setRecentSessions([]);
+    }
   }, []);
 
   const features = [

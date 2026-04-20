@@ -348,7 +348,19 @@ export default function EnhancedDashboardPro() {
   });
 
   useEffect(() => {
-    const savedActivities = JSON.parse(localStorage.getItem("activities") || "[]");
+    let savedActivities: any[] = [];
+
+    try {
+      const rawActivities = localStorage.getItem("activities");
+      savedActivities = rawActivities ? JSON.parse(rawActivities) : [];
+    } catch {
+      savedActivities = [];
+    }
+
+    if (!Array.isArray(savedActivities)) {
+      savedActivities = [];
+    }
+
     setActivities(savedActivities.slice(0, 6));
 
     const interviewCount = savedActivities.filter((a: any) => a.type === "interview").length;
